@@ -40,7 +40,7 @@ jobs:
 
       - name: 777 Permissions For Phoenix FD Folder
         run: |
-          sudo chmod 777 -R $GITHUB_WORKSPACE/pfd-fork
+              sudo chmod 777 -R $GITHUB_WORKSPACE/pfd-fork
       
       - name: Fix unexpected exit
         run: |
@@ -66,21 +66,21 @@ jobs:
         run: |          
               cd $GITHUB_WORKSPACE/pfd-fork
               sudo chmod +x setup.sh
-              ./setup.sh                      
+              sudo ./setup.sh                      
 
       - name: Starting Dump ( Direct Link )
         if: ${{ steps.config.outputs.DIRECT_LINK == 'yes' }}
         run: | 
               cd $GITHUB_WORKSPACE/pfd-fork        
               sudo chmod +x dumper.sh
-              ./dumper.sh ${{ steps.config.outputs.FW_URL }}
+              sudo bash dumper.sh ${{ steps.config.outputs.FW_URL }}
               
       - name: Starting Dump ( Not Direct Link )
         if: ${{ steps.config.outputs.DIRECT_LINK == 'no' }}   
         run: |          
               cd $GITHUB_WORKSPACE/pfd-fork        
               sudo chmod +x dumper.sh
-              ./dumper.sh "${{ steps.config.outputs.FW_URL }}"
+              sudo bash dumper.sh "${{ steps.config.outputs.FW_URL }}"
              
       - name: Get AndroidTools From Shivam Kumar Repo
         uses: actions/checkout@main
@@ -101,7 +101,7 @@ jobs:
         run: |
               cd $GITHUB_WORKSPACE/android_tools
               sudo chmod +x setup.sh
-              ./setup.sh              
+              sudo ./setup.sh              
                 
       - name: Gen DT
         run: |
@@ -110,4 +110,4 @@ jobs:
               export ORG=${{ steps.config.outputs.GH_ORGNAME }}
               cd $GITHUB_WORKSPACE/android_tools
               sudo chmod +x tools/dummy_dt.sh
-              ./tools/dummy_dt.sh $GITHUB_WORKSPACE/pfd-fork/out
+              sudo bash tools/dummy_dt.sh $GITHUB_WORKSPACE/pfd-fork/out
