@@ -111,9 +111,3 @@ jobs:
               cd $GITHUB_WORKSPACE/android_tools
               sudo chmod +x tools/dummy_dt.sh
               ./tools/dummy_dt.sh $GITHUB_WORKSPACE/pfd-fork/out
-              
-      - name: Telegram Notify
-        run: |
-             printf "done!!"
-              done
-          done        
