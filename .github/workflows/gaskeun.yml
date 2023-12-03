@@ -113,7 +113,7 @@ jobs:
               ./tools/dummy_dt.sh $GITHUB_WORKSPACE/pfd-fork/out
               
       - name: Telegram Notify
-        run:|
+        run: |
              printf "done!!"
               done
           done        
