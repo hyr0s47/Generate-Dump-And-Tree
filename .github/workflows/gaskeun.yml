@@ -111,7 +111,7 @@ jobs:
               chmod +x tools/dummy_dt.sh
               ./tools/dummy_dt.sh $GITHUB_WORKSPACE/pfd-fork/out
               
-      - name: Telegram Notify
+      - name: IDK
         run:|
              printf "done!!"
               done
