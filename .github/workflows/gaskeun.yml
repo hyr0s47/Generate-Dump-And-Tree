@@ -40,7 +40,7 @@ jobs:
 
       - name: 777 Permissions For Phoenix FD Folder
         run: |
-              sudo chmod 777 -R $GITHUB_WORKSPACE/pfd-fork
+          sudo chmod 777 -R $GITHUB_WORKSPACE/pfd-fork
       
       - name: Fix unexpected exit
         run: |
@@ -62,25 +62,28 @@ jobs:
               echo ${{ steps.config.outputs.TG_BOT_TOKEN }} > .tg_token
               echo ${{ steps.config.outputs.TG_CHAT_ID }} > .tg_chat 
 
-      - name: Run Setup For Phoenix Firmware Dump
-        run: |          
-              cd $GITHUB_WORKSPACE/pfd-fork
-              sudo chmod +x setup.sh
-              sudo ./setup.sh                      
+              
+      - name: Create and configure the environment required for the PhoenixDumper
+        run: |
+          sudo sed -i 's/USE_MIRROR_FOR_PIP\=true/USE_MIRROR_FOR_PIP\=false/' $GITHUB_WORKSPACE/pfd-fork/setup.sh
+          sudo bash $GITHUB_WORKSPACE/pfd-fork/setup.sh
+          pip3 install aligo
+         # sudo apt-get -y --purge remove "adoptopenjdk-11-hotspot"
+         # java -version
 
       - name: Starting Dump ( Direct Link )
         if: ${{ steps.config.outputs.DIRECT_LINK == 'yes' }}
         run: | 
               cd $GITHUB_WORKSPACE/pfd-fork        
               sudo chmod +x dumper.sh
-              sudo bash dumper.sh ${{ steps.config.outputs.FW_URL }}
+              ./dumper.sh ${{ steps.config.outputs.FW_URL }}
               
       - name: Starting Dump ( Not Direct Link )
         if: ${{ steps.config.outputs.DIRECT_LINK == 'no' }}   
         run: |          
               cd $GITHUB_WORKSPACE/pfd-fork        
               sudo chmod +x dumper.sh
-              sudo bash dumper.sh "${{ steps.config.outputs.FW_URL }}"
+              ./dumper.sh "${{ steps.config.outputs.FW_URL }}"
              
       - name: Get AndroidTools From Shivam Kumar Repo
         uses: actions/checkout@main
@@ -101,7 +104,7 @@ jobs:
         run: |
               cd $GITHUB_WORKSPACE/android_tools
               sudo chmod +x setup.sh
-              sudo ./setup.sh              
+              ./setup.sh              
                 
       - name: Gen DT
         run: |
@@ -110,4 +113,4 @@ jobs:
               export ORG=${{ steps.config.outputs.GH_ORGNAME }}
               cd $GITHUB_WORKSPACE/android_tools
               sudo chmod +x tools/dummy_dt.sh
-              sudo bash tools/dummy_dt.sh $GITHUB_WORKSPACE/pfd-fork/out
+              ./tools/dummy_dt.sh $GITHUB_WORKSPACE/pfd-fork/out
