@@ -74,14 +74,16 @@ jobs:
       - name: Starting Dump ( Direct Link )
         if: ${{ steps.config.outputs.DIRECT_LINK == 'yes' }}
         run: | 
-              cd $GITHUB_WORKSPACE/pfd-fork        
+              cd $GITHUB_WORKSPACE/pfd-fork     
+              sudo cat dumper.sh | sed 's/\r$//' > dumper.sh
               sudo chmod +x dumper.sh
               ./dumper.sh ${{ steps.config.outputs.FW_URL }}
               
       - name: Starting Dump ( Not Direct Link )
         if: ${{ steps.config.outputs.DIRECT_LINK == 'no' }}   
         run: |          
-              cd $GITHUB_WORKSPACE/pfd-fork        
+              cd $GITHUB_WORKSPACE/pfd-fork 
+              sudo cat dumper.sh | sed 's/\r$//' > dumper.sh
               sudo chmod +x dumper.sh
               ./dumper.sh "${{ steps.config.outputs.FW_URL }}"
              
