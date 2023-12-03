@@ -65,21 +65,21 @@ jobs:
       - name: Run Setup For Phoenix Firmware Dump
         run: |          
               cd $GITHUB_WORKSPACE/pfd-fork
-              chmod +x setup.sh
+              sudo chmod +x setup.sh
               ./setup.sh                      
 
       - name: Starting Dump ( Direct Link )
         if: ${{ steps.config.outputs.DIRECT_LINK == 'yes' }}
         run: | 
               cd $GITHUB_WORKSPACE/pfd-fork        
-              chmod +x dumper.sh
+              sudo chmod +x dumper.sh
               ./dumper.sh ${{ steps.config.outputs.FW_URL }}
               
       - name: Starting Dump ( Not Direct Link )
         if: ${{ steps.config.outputs.DIRECT_LINK == 'no' }}   
         run: |          
               cd $GITHUB_WORKSPACE/pfd-fork        
-              chmod +x dumper.sh
+              sudo chmod +x dumper.sh
               ./dumper.sh "${{ steps.config.outputs.FW_URL }}"
              
       - name: Get AndroidTools From Shivam Kumar Repo
@@ -100,18 +100,19 @@ jobs:
       - name: Run Setup For AndroidTools Repo              
         run: |
               cd $GITHUB_WORKSPACE/android_tools
-              chmod +x setup.sh
+              sudo chmod +x setup.sh
               ./setup.sh              
                 
       - name: Gen DT
         run: |
               export GIT_TOKEN=${{ steps.config.outputs.GH_TOKEN }}
               export GIT_ORG=${{ steps.config.outputs.GH_ORGNAME }}
+              export ORG=${{ steps.config.outputs.GH_ORGNAME }}
               cd $GITHUB_WORKSPACE/android_tools
-              chmod +x tools/dummy_dt.sh
+              sudo chmod +x tools/dummy_dt.sh
               ./tools/dummy_dt.sh $GITHUB_WORKSPACE/pfd-fork/out
               
-      - name: IDK
+      - name: Telegram Notify
         run:|
              printf "done!!"
               done
